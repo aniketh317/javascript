@@ -1,6 +1,6 @@
 function getComputerChoice()
 {
-    const choices = ['rock','paper','scissors'];
+    const choices = ['rock','paper','scissor'];
     const randomnumber = Math.floor(Math.random()*3);
     return choices[randomnumber];
 }
@@ -11,11 +11,11 @@ function playRound(playerSelection, computerSelection) {
     if(playerSelection != computerSelection)
     {
         ret = 2;
-        if(playerSelection == 'rock' && computerSelection == 'scissors')
+        if(playerSelection == 'rock' && computerSelection == 'scissor')
             ret = 1;
         if(playerSelection == 'paper' && computerSelection == 'rock')
             ret = 1;
-        if(playerSelection == 'scissors' && computerSelection == 'paper')
+        if(playerSelection == 'scissor' && computerSelection == 'paper')
             ret = 1;
     }
     return ret;
@@ -68,5 +68,42 @@ function game()
     else
         console.log("Sorry!! You lost.")
 }
+pscore = 0;
+cscore = 0;
+function playGame(e)
+{
+    let playerSelection = this.id;
+    let computerSelection = getComputerChoice();
+    player = document.querySelector('.Play .player');
+    computer = document.querySelector('.Play .computer');
+    player.textContent = `Player Choice: ${playerSelection}`;
+    computer.textContent = `Computer Choice: ${computerSelection}`;
+    let out = playRound(playerSelection, computerSelection);
+    if(out == 1)
+        pscore++;
+    else if(out == 2)
+        cscore++;
+    player = document.querySelector('.Scores .player');
+    computer = document.querySelector('.Scores .computer');
+    player.textContent = `Player score: ${pscore}`;
+    computer.textContent = `Computer score: ${cscore}`;
+    if(pscore == 5 || cscore == 5)
+    {
+        element = document.querySelector('.Final');
+        create = document.createElement('h2');
+        if(pscore == 5)
+            create.textContent = 'Player Wins';
+        else
+            create.textContent = 'Computer Wins';
+        element.appendChild(create);
+    }
+}
+// buttons is a node list created as a result of the selectorAll query. It looks and acts much like an array.
+const buttons = document.querySelectorAll('button');
 
-game();
+// we use the .forEach method to iterate through each button
+buttons.forEach((button) => {
+
+  // and for each one we add a 'click' listener
+  button.addEventListener('click', playGame);
+});
